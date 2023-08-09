@@ -1,0 +1,7 @@
+seed: 1234
+
+project_root: "/Users/eric/acse/irp/priorCVAE-bayes-rate-consistency/"
+
+defaults:
+  - dataset: simulation-inCOV2000AA.yaml
+  - model: VAE-AA.yaml

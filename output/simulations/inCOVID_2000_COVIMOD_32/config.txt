@@ -1,0 +1,4 @@
+dataset: {'size': 2000, 'covid': True, 'strata': 'COVIMOD', 'intensity': 'inCOVID', 'simulated': True}
+model: {'name': 'gp-m52', 'num_chains': 1, 'num_warmup': 50, 'num_samples': 50, 'max_treedepth': 13, 'thinning': 1, 'numpyro_model': {'_partial_': True, '_target_': 'bayes_rate_consistency.model.simulation_model_gp'}, 'load_decoder': False}
+seed: 1234
+project_root: /Users/eric/acse/irp/priorCVAE-bayes-rate-consistency/

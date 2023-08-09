@@ -1,0 +1,2 @@
+from .simulation_model_vae import simulation_model_vae
+from .simulation_model_gp import simulation_model_gp
