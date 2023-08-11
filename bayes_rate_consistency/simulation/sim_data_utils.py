@@ -3,14 +3,17 @@ import pyreadr
 import pandas as pd
 import pickle
 import arviz as az
+import logging
 
 from bayes_rate_consistency.utils import make_unique
+
+log = logging.getLogger(__name__)
 
 
 def load_simulated_dataset(project_root, is_covid, size, strata):
 
-    print("Loading simulated data...")
-    print("----------------------------------------")
+    log.info("Loading simulated data...")
+    log.info("----------------------------------------")
     datasets_dir = "data/my_simulations/datasets"
 
     if is_covid:
@@ -55,9 +58,9 @@ def save_simulated_data(output_dir, cfg, data, mcmc_data):
             file.write(f"{key}: {value}\n")
     
 
-def get_output_path(project_root, is_covid, size):
+def get_output_path(project_root, is_covid, size, is_decoder = True):
 
-    output_dir = "output/simulations"
+    output_dir = "simulations"
 
     if is_covid:
         data_dir = "inCOVID"
@@ -66,6 +69,10 @@ def get_output_path(project_root, is_covid, size):
 
     data_dir += f"_{size}"
     data_dir += "_COVIMOD"
+    if is_decoder:
+        data_dir += "_vae"
+    else:
+        data_dir += "_gp"
 
     data_dir = make_unique(os.path.join(project_root, output_dir, data_dir))
     if not os.path.exists(data_dir):

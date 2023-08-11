@@ -3,17 +3,19 @@ import arviz as az
 from hydra.utils import instantiate
 import jax.numpy as jnp
 from priorCVAE.priors import Matern52
+import logging
 
 from bayes_rate_consistency.mcmc import run_mcmc
 from bayes_rate_consistency.decoder import load_decoder
 from bayes_rate_consistency.model import simulation_model_vae
 from bayes_rate_consistency.simulation import save_mcmc_results
 
+log = logging.getLogger(__name__)
 
 def simulation_inference(rng_key, rng_key_predict, cfg, mcmc_data, output_dir):
 
-    print("Running MCMC...")
-    print("----------------------------------------")
+    log.info("Running MCMC...")
+    log.info("----------------------------------------")
 
     args = {
         "logP": mcmc_data["log_P_F"],
@@ -61,8 +63,8 @@ def simulation_inference(rng_key, rng_key_predict, cfg, mcmc_data, output_dir):
     posterior_predictive = Predictive(model_fn, mcmc_samples)
     posterior_predictive_samples = posterior_predictive(rng_key_predict, args)
     
-    print("Saving MCMC results...")
-    print("----------------------------------------")
+    log.info("Saving MCMC results...")
+    log.info("----------------------------------------")
     inference_data = az.from_numpyro(mcmc, posterior_predictive=posterior_predictive_samples)
     save_mcmc_results(output_dir, inference_data)
 

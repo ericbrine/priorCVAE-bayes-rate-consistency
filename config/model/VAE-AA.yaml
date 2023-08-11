@@ -1,6 +1,6 @@
 name: "vae-m52"
 
-num_chains: 4
+num_chains: 2
 num_warmup: 100
 num_samples: 200
 max_treedepth: 13

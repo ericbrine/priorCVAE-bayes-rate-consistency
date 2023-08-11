@@ -2,8 +2,12 @@ import pandas as pd
 import numpy as np
 import jax.numpy as jnp
 import re
+import logging
 
 from bayes_rate_consistency.simulation import save_simulated_data
+
+log = logging.getLogger(__name__)
+
 
 def sim_make_mcmc_data(data, strata_scheme, A=44):
 

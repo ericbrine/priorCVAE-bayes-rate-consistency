@@ -4,6 +4,7 @@ File contains the code for Monte Carlo Markov Chain (MCMC) used for inference.
 from typing import Dict
 import time
 import os
+import logging
 
 import numpy as np
 from jax.random import KeyArray
@@ -12,9 +13,10 @@ import numpyro
 import numpyro.distributions as npdist
 from numpyro.infer import init_to_median, MCMC, NUTS
 
-
 from priorCVAE.models import Decoder
 
+
+log = logging.getLogger(__name__)
 
 def run_mcmc(rng_key: KeyArray, model: numpyro.primitives, args: Dict, y: jnp.array = None, verbose: bool = False) -> [MCMC, jnp.ndarray, float]:
     """
@@ -26,7 +28,7 @@ def run_mcmc(rng_key: KeyArray, model: numpyro.primitives, args: Dict, y: jnp.ar
     :param decoder: a decoder model.
     :param decoder_params: a dictionary with decoder network parameters.
     :param c: a Jax ndarray used for cVAE of the shape, (N, C).
-    :param verbose: if True, prints the MCMC summary.
+    :param verbose: if True, logs the MCMC summary.
 
     Returns:
         - MCMC object
@@ -48,33 +50,11 @@ def run_mcmc(rng_key: KeyArray, model: numpyro.primitives, args: Dict, y: jnp.ar
     mcmc.run(rng_key, args, y)
     t_elapsed = time.time() - start
     if verbose:
-        mcmc.print_summary(exclude_deterministic=False)
+        mcmc.log.info_summary(exclude_deterministic=False)
 
-    print("\nMCMC elapsed time:", round(t_elapsed), "s")
+    log.info(f"MCMC elapsed time: {t_elapsed:.2f}s")
     ss = numpyro.diagnostics.summary(mcmc.get_samples(group_by_chain=True))
     r = np.mean(ss['f']['n_eff'])
-    print("Average ESS for all VAE-GP effects : " + str(round(r)))
-
-    return mcmc, mcmc.get_samples(), t_elapsed
-
-
-def posterior_predictive(rng_key: KeyArray, model: numpyro.primitives, args: Dict, samples: jnp.ndarray, y: jnp.ndarray, verbose: bool = True) -> [jnp.ndarray, float]:
-    """
-    Run posterior predictive inference using VAE decoder.
-
-    :param rng_key: a PRNG key used as the random key.
-    :param model: a numpyro model of the type numpypro primitives.
-    :param args: a dictionary with the arguments required for MCMC.
-    :param decoder: a decoder model.
-    :param decoder_params: a dictionary with decoder network parameters.
-    :param c: a Jax ndarray used for cVAE of the shape, (N, C).
-    :param verbose: if True, prints the MCMC summary.
-
-    Returns:
-        - MCMC object
-        - MCMC samples
-        - time taken
-
-    """
+    log.info("Average ESS for all VAE-GP effects : " + str(round(r)))
 
     return mcmc, mcmc.get_samples(), t_elapsed

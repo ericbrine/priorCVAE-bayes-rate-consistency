@@ -1,6 +1,7 @@
 seed: 1234
 
 project_root: "/Users/eric/acse/irp/priorCVAE-bayes-rate-consistency/"
+output_root: "/Users/eric/acse/irp/priorCVAE-bayes-rate-consistency/output/"
 
 defaults:
   - dataset: simulation-inCOV2000AA.yaml

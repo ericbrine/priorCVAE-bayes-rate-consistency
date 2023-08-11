@@ -1,28 +1,43 @@
 import arviz as az
 import jax.numpy as jnp
 import os
+import logging
 
 from bayes_rate_consistency.utils import plot_heatmap
 
+log = logging.getLogger(__name__)
+
 def simulation_postprocess(cfg, data, mcmc_data, inference_data=None, output_dir=""):
     
-    print("Postprocessing...")
-    print("----------------------------------------")
+    log.info("Postprocessing...")
+    log.info("----------------------------------------")
 
     if not inference_data:
         inference_data = az.from_netcdf(os.path.join(output_dir, "mcmc.nc"))
 
-    print("Extracting posterior contact intensities...")
+    log.info("Extracting posterior contact intensities...")
     m = get_contact_intensity(data=data, part_gender='Male', contact_gender='Female')
     m_post = get_posterior_contact_intensity(inference_data, mcmc_data=mcmc_data, pop_key="P_F")
 
-    mae = jnp.mean(jnp.abs(m - m_post))
-    print(f"MAE: {mae}")
+    m_mae = jnp.mean(jnp.abs(m - m_post))
+    log.info(f"MAE (contact intensity): {m_mae:.5f}")
 
-    print()
-    print("Saving plots...")
+    log.info("----------------------------------------")
+    log.info("Posterior predictive check...")
+    y_strata = mcmc_data['Y_MF']
+    y_check = sim_posterior_predictive_check(y_strata, inference_data.posterior_predictive['yhat_strata'])
+    log.info(f"Proportion of y in 95% CI: {y_check:.5f}")
+
+    yhat_strata = inference_data.posterior_predictive.median(dim=["chain", "draw"])['yhat_strata'].values
+    mae_y = jnp.mean(jnp.abs(y_strata - yhat_strata))
+    log.info(f"MAE (y): {mae_y:.5f}")
+
+    log.info("----------------------------------------")
+    log.info("Saving plots...")
     plot_heatmap(m.T, "True contact intensity", output_dir, filename="true_contact_intensity.png")
     plot_heatmap(m_post.T, "Posterior contact intensity", output_dir, filename="posterior_contact_intensity.png")
+    plot_heatmap(yhat_strata.T, "Y-hat", output_dir, filename="yhat_strata.png")
+    plot_heatmap(y_strata.T, "Y", output_dir, filename="y_strata.png")
 
 
 
@@ -41,11 +56,12 @@ def get_contact_intensity(data, part_gender, contact_gender):
 
 
 def sim_posterior_predictive_check(y_strata, yhat_strata):
-    ci_lower = jnp.quantile(yhat_strata, 0.025, axis=0)
-    ci_upper = np.quantile(yhat_strata, 0.975, axis=0)
+    ci_lower = yhat_strata.quantile(0.025, dim=["chain", "draw"]).values
+    ci_upper = yhat_strata.quantile(0.975, dim=["chain", "draw"]).values
+
     in_range = (ci_lower <= y_strata) & (y_strata <= ci_upper)
-    valid_idx = np.where(in_range)
-    proportion = valid_idx[0].shape[0]/y_strata.size
+    num_valid = jnp.where(in_range)[0].size
+    proportion = num_valid/y_strata.size
     return proportion
 
 
