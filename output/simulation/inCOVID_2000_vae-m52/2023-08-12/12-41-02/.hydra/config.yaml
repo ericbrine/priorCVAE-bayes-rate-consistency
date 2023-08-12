@@ -1,0 +1,25 @@
+dataset:
+  size: 2000
+  covid: true
+  strata: COVIMOD
+  intensity: inCOVID
+  simulated: true
+model:
+  name: vae-m52
+  num_chains: 2
+  num_warmup: 100
+  num_samples: 200
+  max_treedepth: 13
+  thinning: 1
+  input_dim: 1936
+  hidden_dim: 80
+  latent_dim: 30
+  decoder_path: weights/vae_1936_5000_2d_matern52_0.2
+  numpyro_model:
+    _partial_: true
+    _target_: bayes_rate_consistency.model.simulation_model_vae
+  load_decoder: true
+seed: 1234
+job_name: simulation
+project_root: /Users/eric/acse/irp/priorCVAE-bayes-rate-consistency/
+output_root: /Users/eric/acse/irp/priorCVAE-bayes-rate-consistency/output

@@ -1,8 +1,15 @@
 seed: 1234
 
+job_name: simulation
+
 project_root: "/Users/eric/acse/irp/priorCVAE-bayes-rate-consistency/"
-output_root: "/Users/eric/acse/irp/priorCVAE-bayes-rate-consistency/output/"
+output_root: "/Users/eric/acse/irp/priorCVAE-bayes-rate-consistency/output"
 
 defaults:
   - dataset: simulation-inCOV2000AA.yaml
   - model: VAE-AA.yaml
+
+
+hydra:
+  run:
+    dir: ${output_root}/${job_name}/${dataset.intensity}_${dataset.size}_${model.name}/${now:%Y-%m-%d}/${now:%H-%M-%S}

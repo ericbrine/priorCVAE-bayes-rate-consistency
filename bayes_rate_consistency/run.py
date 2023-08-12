@@ -1,6 +1,7 @@
 import hydra
 from omegaconf import DictConfig, OmegaConf
 import numpyro
+from hydra.utils import instantiate
 
 import jax
 from jax import random
@@ -15,6 +16,8 @@ config.update("jax_enable_x64", True)
 from bayes_rate_consistency.simulation import load_simulated_dataset, sim_make_mcmc_data, simulation_inference, simulation_postprocess
 from bayes_rate_consistency.simulation import get_output_path, save_simulated_data, save_mcmc_results
 
+import os
+from hydra.utils import get_original_cwd, to_absolute_path
 
 log = logging.getLogger(__name__)
 
@@ -23,11 +26,14 @@ log = logging.getLogger(__name__)
 def main(cfg: DictConfig):
     log.info(OmegaConf.to_yaml(cfg))
 
+    hydra_cfg = hydra.core.hydra_config.HydraConfig.get()
+    output_dir = instantiate(hydra_cfg.run).dir
+
     rng_key = random.PRNGKey(cfg.seed)
 
     rng_key, rng_key_post, rng_key_predict, rng_key_draw = jax.random.split(rng_key, 4)
 
-    output_dir = get_output_path(cfg.output_root, cfg.dataset.covid, cfg.dataset.size)
+    # output_dir = get_output_path(cfg.output_root, cfg.dataset.covid, cfg.dataset.size)
 
     if cfg.dataset.simulated:
         data = load_simulated_dataset(cfg.project_root, cfg.dataset.covid, cfg.dataset.size, cfg.dataset.strata)
