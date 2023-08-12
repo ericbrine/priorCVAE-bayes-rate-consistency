@@ -1,8 +1,8 @@
 name: "gp-m52"
 
-num_chains: 1
-num_warmup: 50
-num_samples: 50
+num_chains: 4
+num_warmup: 500
+num_samples: 1000
 max_treedepth: 13
 thinning: 1
 

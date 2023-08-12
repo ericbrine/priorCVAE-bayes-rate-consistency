@@ -44,6 +44,7 @@ def run_mcmc(rng_key: KeyArray, model: numpyro.primitives, args: Dict, y: jnp.ar
         num_samples=args["num_samples"],
         num_chains=args["num_chains"],
         thinning=args["thinning"],
+        chain_method="parallel",
         progress_bar=False if "NUMPYRO_SPHINXBUILD" in os.environ else True,
     )
     start = time.time()

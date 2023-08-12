@@ -14,16 +14,20 @@ def simulation_model_gp(args, y = None):
     epsilon = 1e-13
     jitter = 1e-6
 
-    length = numpyro.sample("gp_lengthscale", dist.HalfCauchy(1.))
+    # length = numpyro.sample("gp_lengthscale", dist.HalfCauchy(1.))
+    # length = 0.5
     
-    # compute kernel
-    x = args['x']
+    # # compute kernel
+    # x = args['x']
 
-    k = Matern52(length)(x, x)
+    # k = Matern52(length)(x, x)
 
-    k += jitter * jnp.eye(x.shape[0])
+    # k += jitter * jnp.eye(x.shape[0])
 
-    f = numpyro.sample("f", dist.MultivariateNormal(loc=jnp.zeros(x.shape[0]), covariance_matrix=k))
+    k = args['kernel']
+    size = args['size']
+
+    f = numpyro.sample("f", dist.MultivariateNormal(loc=jnp.zeros(size), covariance_matrix=k))
     f = jnp.reshape(f, (44,44))
    
     #fixed effects

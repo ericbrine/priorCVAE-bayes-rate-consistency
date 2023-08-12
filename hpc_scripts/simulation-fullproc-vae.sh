@@ -1,12 +1,12 @@
 #!/bin/bash
 REPO_PATH="/rds/general/user/emb22/home/priorCVAE-bayes-rate-consistency"
-OUT_PATH="/rds/general/user/emb22/home/output/"
+OUT_PATH="/rds/general/user/emb22/home/output"
 
 # Create main script
 cat > "$OUT_PATH/simulation-fullproc-vae.pbs" <<EOF
 #!/bin/bash
 #PBS -l walltime=08:00:00
-#PBS -l select=1:ncpus=8:ompthreads=1:mem=50gb
+#PBS -l select=1:ncpus=16:ompthreads=1:mem=50gb
 
 module load anaconda3/personal
 source activate bayes
