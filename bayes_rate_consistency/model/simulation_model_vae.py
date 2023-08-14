@@ -18,6 +18,9 @@ def simulation_model_vae(args, y: jnp.array = None, sample_lengthscale: bool = F
     z = numpyro.sample("z", dist.Normal(jnp.zeros(z_dim), jnp.ones(z_dim)))
     f = numpyro.deterministic("f", decoder.apply({'params': decoder_params}, z))
     f = jnp.reshape(f, (44,44))
+    # Symmetrize
+    i_lower = jnp.tril_indices(44, -1)
+    f = f.at[i_lower].set(f.T[i_lower])
     
     #fixed effects
     beta_0 = numpyro.sample('beta_0', dist.Normal(0, 10))

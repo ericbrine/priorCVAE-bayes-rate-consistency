@@ -14,7 +14,7 @@ numpyro.set_host_device_count(4)
 config.update("jax_enable_x64", True)
 
 from bayes_rate_consistency.simulation import load_simulated_dataset, sim_make_mcmc_data, simulation_inference, simulation_postprocess
-from bayes_rate_consistency.simulation import get_output_path, save_simulated_data, save_mcmc_results
+from bayes_rate_consistency.simulation import save_simulated_data
 
 import os
 from hydra.utils import get_original_cwd, to_absolute_path

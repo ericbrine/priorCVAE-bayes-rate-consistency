@@ -1,8 +1,8 @@
 name: "vae-m52"
 
-num_chains: 2
-num_warmup: 100
-num_samples: 200
+num_chains: 4
+num_warmup: 500
+num_samples: 1000
 max_treedepth: 13
 thinning: 1
 
@@ -10,7 +10,7 @@ input_dim : 1936
 hidden_dim: 80
 latent_dim: 30
 
-decoder_path: "weights/vae_1936_5000_2d_matern52_0.2"
+decoder_path: "weights/vae_1936_8000_mat52_0.2"
 
 numpyro_model: 
   _partial_: true

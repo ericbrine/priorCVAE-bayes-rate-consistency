@@ -18,7 +18,7 @@ def simulation_inference(rng_key, rng_key_predict, cfg, mcmc_data, output_dir):
     log.info("----------------------------------------")
 
     args = {
-        "logP": mcmc_data["log_P_F"],
+        "logP": mcmc_data["log_P_M"],
         "logN": mcmc_data["log_N_M"],
         "map_age_to_strata": mcmc_data["map_age_to_strata"],
         "z_dim": 30,
@@ -45,12 +45,12 @@ def simulation_inference(rng_key, rng_key_predict, cfg, mcmc_data, output_dir):
         x1 = x1
         x2 = x2
         x = x.reshape([A ** 2, 2])
-        args['kernel'] = Matern52(0.5)(x, x) + 1e-5 * jnp.eye(x.shape[0])
+        args['kernel'] = Matern52(0.2)(x, x) + 1e-5 * jnp.eye(x.shape[0])
         args['size'] = x.shape[0]
         # args['x'] = x
     
 
-    y = mcmc_data["Y_MF"]
+    y = mcmc_data["Y_MM"]
     
 
     model_fn = instantiate(cfg.model.numpyro_model, _convert_="partial")

@@ -25,6 +25,8 @@ def load_simulated_dataset(project_root, is_covid, size, strata):
     data_dir += "_COVIMOD"
     data_path = os.path.join(project_root, datasets_dir, data_dir, "data_1.rds")
 
+    log.info(f"Loading data from {data_path}")
+
     data = pyreadr.read_r(data_path)[None]
     data = categorize_age_strata(data)
     return data
