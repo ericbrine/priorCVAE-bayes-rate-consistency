@@ -16,15 +16,15 @@ def simulation_postprocess(cfg, data, mcmc_data, inference_data=None, output_dir
         inference_data = az.from_netcdf(os.path.join(output_dir, "mcmc.nc"))
 
     log.info("Extracting posterior contact intensities...")
-    m = get_contact_intensity(data=data, part_gender='Male', contact_gender='Female')
-    m_post = get_posterior_contact_intensity(inference_data, mcmc_data=mcmc_data, pop_key="P_F")
+    m = get_contact_intensity(data=data, part_gender='Male', contact_gender='Male')
+    m_post = get_posterior_contact_intensity(inference_data, mcmc_data=mcmc_data, pop_key="P_M")
 
     m_mae = jnp.mean(jnp.abs(m - m_post))
     log.info(f"MAE (contact intensity): {m_mae:.5f}")
 
     log.info("----------------------------------------")
     log.info("Posterior predictive check...")
-    y_strata = mcmc_data['Y_MF']
+    y_strata = mcmc_data['Y_MM']
     y_check = sim_posterior_predictive_check(y_strata, inference_data.posterior_predictive['yhat_strata'])
     log.info(f"Proportion of y in 95% CI: {y_check:.5f}")
 
@@ -38,8 +38,6 @@ def simulation_postprocess(cfg, data, mcmc_data, inference_data=None, output_dir
     plot_heatmap(m_post.T, "Posterior contact intensity", output_dir, filename="posterior_contact_intensity.png")
     plot_heatmap(yhat_strata.T, "Y-hat", output_dir, filename="yhat_strata.png")
     plot_heatmap(y_strata.T, "Y", output_dir, filename="y_strata.png")
-
-
 
 
 def get_posterior_contact_intensity(inference_data, mcmc_data, pop_key="P_M"):
