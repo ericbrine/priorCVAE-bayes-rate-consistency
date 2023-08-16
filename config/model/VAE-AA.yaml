@@ -10,7 +10,7 @@ input_dim : 1936
 hidden_dim: 80
 latent_dim: 30
 
-decoder_path: "weights/vae_1936_8000_mat52_0.2"
+decoder_path: "weights/vae_1936_8000_mat52_0.5"
 
 numpyro_model: 
   _partial_: true

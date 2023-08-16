@@ -33,10 +33,8 @@ def main(cfg: DictConfig):
 
     rng_key, rng_key_post, rng_key_predict, rng_key_draw = jax.random.split(rng_key, 4)
 
-    # output_dir = get_output_path(cfg.output_root, cfg.dataset.covid, cfg.dataset.size)
-
     if cfg.dataset.simulated:
-        data = load_simulated_dataset(cfg.project_root, cfg.dataset.covid, cfg.dataset.size, cfg.dataset.strata)
+        data = load_simulated_dataset(cfg.project_root, cfg.dataset.intensity, cfg.dataset.size, cfg.dataset.strata)
         mcmc_data = sim_make_mcmc_data(data, cfg.dataset.strata)
         save_simulated_data(output_dir, cfg, data, mcmc_data)
         inference_data = simulation_inference(rng_key_post, rng_key_predict, cfg, mcmc_data, output_dir)

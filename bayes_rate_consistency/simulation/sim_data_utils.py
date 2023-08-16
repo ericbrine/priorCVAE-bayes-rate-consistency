@@ -10,16 +10,13 @@ from bayes_rate_consistency.utils import make_unique
 log = logging.getLogger(__name__)
 
 
-def load_simulated_dataset(project_root, is_covid, size, strata):
+def load_simulated_dataset(project_root, intensity, size, strata):
 
     log.info("Loading simulated data...")
     log.info("----------------------------------------")
     datasets_dir = "data/my_simulations/datasets"
 
-    if is_covid:
-        data_dir = "inCOVID"
-    else:
-        data_dir = "preCOVID"
+    data_dir = intensity
 
     data_dir += f"_{size}"
     data_dir += "_COVIMOD"

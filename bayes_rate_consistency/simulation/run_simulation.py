@@ -45,7 +45,7 @@ def simulation_inference(rng_key, rng_key_predict, cfg, mcmc_data, output_dir):
         x1 = x1
         x2 = x2
         x = x.reshape([A ** 2, 2])
-        args['kernel'] = Matern52(0.2)(x, x) + 1e-5 * jnp.eye(x.shape[0])
+        args['kernel'] = Matern52(0.4, 2.0)(x, x) + 1e-5 * jnp.eye(x.shape[0])
         args['size'] = x.shape[0]
         # args['x'] = x
     

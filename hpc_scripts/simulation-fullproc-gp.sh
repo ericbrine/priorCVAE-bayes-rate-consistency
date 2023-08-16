@@ -13,8 +13,14 @@ source activate bayes
 
 # Move into repository
 cd $REPO_PATH
+python -m bayes_rate_consistency.run project_root=$REPO_PATH output_root=$OUT_PATH model=GP-AA dataset.size=1000 dataset.intensity=inCOVID
+python -m bayes_rate_consistency.run project_root=$REPO_PATH output_root=$OUT_PATH model=GP-AA dataset.size=1000 dataset.intensity=preCOVID
 
-python -m bayes_rate_consistency.run project_root=$REPO_PATH output_root=$OUT_PATH model=GP-AA
+python -m bayes_rate_consistency.run project_root=$REPO_PATH output_root=$OUT_PATH model=GP-AA dataset.size=2000 dataset.intensity=inCOVID
+python -m bayes_rate_consistency.run project_root=$REPO_PATH output_root=$OUT_PATH model=GP-AA dataset.size=2000 dataset.intensity=preCOVID
+
+python -m bayes_rate_consistency.run project_root=$REPO_PATH output_root=$OUT_PATH model=GP-AA dataset.size=5000 dataset.intensity=inCOVID
+python -m bayes_rate_consistency.run project_root=$REPO_PATH output_root=$OUT_PATH model=GP-AA dataset.size=5000 dataset.intensity=preCOVID
 EOF
 
 # Execute main script
