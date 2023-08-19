@@ -31,9 +31,7 @@ def simulation_inference(rng_key, rng_key_predict, cfg, mcmc_data, output_dir):
     if cfg.model.load_decoder:
         decoder, decoder_params = load_decoder(
             cfg.project_root,
-            cfg.model.decoder_path,
-            cfg.model.hidden_dim,
-            cfg.model.input_dim,
+            cfg.model
         )
         args["decoder"] = decoder
         args["decoder_params"] = decoder_params
@@ -45,7 +43,7 @@ def simulation_inference(rng_key, rng_key_predict, cfg, mcmc_data, output_dir):
         x1 = x1
         x2 = x2
         x = x.reshape([A ** 2, 2])
-        args['kernel'] = Matern52(0.4, 2.0)(x, x) + 1e-5 * jnp.eye(x.shape[0])
+        args['kernel'] = Matern52(0.1, 1.2)(x, x) + 1e-5 * jnp.eye(x.shape[0])
         args['size'] = x.shape[0]
         # args['x'] = x
     

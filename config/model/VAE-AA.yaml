@@ -7,10 +7,12 @@ max_treedepth: 13
 thinning: 1
 
 input_dim : 1936
-hidden_dim: 80
+hidden_dim1: 1500
+hidden_dim2: 1000
+hidden_dim3: 500
 latent_dim: 30
 
-decoder_path: "weights/vae_1936_8000_mat52_0.5"
+decoder_path: "weights/model_large_9000_mat52_0.1"
 
 numpyro_model: 
   _partial_: true

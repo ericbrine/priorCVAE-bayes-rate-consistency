@@ -6,10 +6,10 @@ from priorCVAE.models import MLPDecoder
 from priorCVAE.utility import load_model_params
 
 
-def load_decoder(project_root, decoder_path, hidden_dim, input_dim):
+def load_decoder(project_root, model_args):
 
-    decoder_path = os.path.join(project_root, decoder_path)
+    decoder_path = os.path.join(project_root, model_args['decoder_path'])
     decoder_params = load_model_params(decoder_path)["decoder"]
-    decoder = MLPDecoder([hidden_dim, hidden_dim, hidden_dim], input_dim, activations=nn.gelu)
+    decoder = MLPDecoder([model_args['hidden_dim3'], model_args['hidden_dim2'], model_args['hidden_dim1']], model_args['input_dim'], activations=nn.gelu)
 
     return decoder, decoder_params

@@ -5,7 +5,7 @@ OUT_PATH="/rds/general/user/emb22/home/output"
 # Create main script
 cat > "$OUT_PATH/simulation-fullproc-gp.pbs" <<EOF
 #!/bin/bash
-#PBS -l walltime=08:00:00
+#PBS -l walltime=16:00:00
 #PBS -l select=1:ncpus=32:ompthreads=1:mem=50gb
 
 module load anaconda3/personal
