@@ -9,10 +9,10 @@ thinning: 1
 input_dim : 1936
 hidden_dim1: 1500
 hidden_dim2: 1000
-hidden_dim3: 500
+hidden_dim3: 1000
 latent_dim: 30
 
-decoder_path: "weights/model_large_9000_mat52_0.1"
+decoder_path: "weights/model_large_8000_1500_mat52_0.1"
 
 numpyro_model: 
   _partial_: true

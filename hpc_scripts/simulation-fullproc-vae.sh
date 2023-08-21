@@ -22,6 +22,16 @@ python -m bayes_rate_consistency.run project_root=$REPO_PATH output_root=$OUT_PA
 
 python -m bayes_rate_consistency.run project_root=$REPO_PATH output_root=$OUT_PATH dataset.size=5000 dataset.intensity=inCOVID
 python -m bayes_rate_consistency.run project_root=$REPO_PATH output_root=$OUT_PATH dataset.size=5000 dataset.intensity=preCOVID
+
+
+python -m bayes_rate_consistency.run project_root=$REPO_PATH output_root=$OUT_PATH dataset.size=1000 dataset.intensity=inCOVID model.decoder_path=weights/model_large_12000_1500_mat52_0.1
+python -m bayes_rate_consistency.run project_root=$REPO_PATH output_root=$OUT_PATH dataset.size=1000 dataset.intensity=preCOVID model.decoder_path=weights/model_large_12000_1500_mat52_0.1
+
+python -m bayes_rate_consistency.run project_root=$REPO_PATH output_root=$OUT_PATH dataset.size=2000 dataset.intensity=inCOVID model.decoder_path=weights/model_large_12000_1500_mat52_0.1
+python -m bayes_rate_consistency.run project_root=$REPO_PATH output_root=$OUT_PATH dataset.size=2000 dataset.intensity=preCOVID model.decoder_path=weights/model_large_12000_1500_mat52_0.1
+
+python -m bayes_rate_consistency.run project_root=$REPO_PATH output_root=$OUT_PATH dataset.size=5000 dataset.intensity=inCOVID model.decoder_path=weights/model_large_12000_1500_mat52_0.1
+python -m bayes_rate_consistency.run project_root=$REPO_PATH output_root=$OUT_PATH dataset.size=5000 dataset.intensity=preCOVID model.decoder_path=weights/model_large_12000_1500_mat52_0.1
 EOF
 
 # Execute main script
