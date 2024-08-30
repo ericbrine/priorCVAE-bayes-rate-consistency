@@ -8,6 +8,9 @@ from bayes_rate_consistency.utils import plot_heatmap
 log = logging.getLogger(__name__)
 
 def simulation_postprocess(cfg, data, mcmc_data, inference_data=None, output_dir=""):
+    """
+    Postprocess the simulation results.
+    """
     
     log.info("Postprocessing...")
     log.info("----------------------------------------")
@@ -41,6 +44,10 @@ def simulation_postprocess(cfg, data, mcmc_data, inference_data=None, output_dir
 
 
 def get_posterior_contact_intensity(inference_data, mcmc_data, pop_key="P_M"):
+    """
+    Get the posterior contact intensity from the inference data.
+    """
+
     P = get_population(mcmc_data, pop_key)
     return jnp.exp(inference_data.posterior.median(dim=["chain", "draw"])['log_contact_rate'].values) * P
 
@@ -54,6 +61,13 @@ def get_contact_intensity(data, part_gender, contact_gender):
 
 
 def sim_posterior_predictive_check(y_strata, yhat_strata):
+    """
+    Compute the proportion of y in the 95% CI of the posterior predictive distribution.
+
+    :param y_strata: observed y.
+    :param yhat_strata: posterior predictive distribution of y.
+    """
+
     ci_lower = yhat_strata.quantile(0.025, dim=["chain", "draw"]).values
     ci_upper = yhat_strata.quantile(0.975, dim=["chain", "draw"]).values
 
@@ -64,6 +78,12 @@ def sim_posterior_predictive_check(y_strata, yhat_strata):
 
 
 def get_population(mcmc_data, key):
+    """
+    Get the population from the data dictionary for MCMC.
+
+    :param mcmc_data: dictionary of data for MCMC.
+    :param key: key for the population.
+    """
     P = mcmc_data[key]
     P = jnp.tile(P, (44, 1))
     return P

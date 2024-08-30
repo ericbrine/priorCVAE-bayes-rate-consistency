@@ -1,6 +1,3 @@
-"""
-File contains the code for Monte Carlo Markov Chain (MCMC) used for inference.
-"""
 from typing import Dict
 import time
 import os

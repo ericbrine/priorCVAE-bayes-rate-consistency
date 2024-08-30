@@ -1,5 +1,5 @@
 size: 2000
-covid: TRUE
+covid: FALSE
 strata: "COVIMOD"
 intensity: "preCOVID"
 simulated: TRUE

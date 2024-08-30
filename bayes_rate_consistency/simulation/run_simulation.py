@@ -13,6 +13,16 @@ from bayes_rate_consistency.simulation import save_mcmc_results
 log = logging.getLogger(__name__)
 
 def simulation_inference(rng_key, rng_key_predict, cfg, mcmc_data, output_dir):
+    """
+    Run MCMC on simulated data.
+
+    :param rng_key: random number generator key.
+    :param rng_key_predict: random number generator key for posterior predictive.
+    :param cfg: configuration object.
+    :param mcmc_data: dictionary of data for MCMC.
+    :param output_dir: output directory.
+    :return: inference data.
+    """
 
     log.info("Running MCMC...")
     log.info("----------------------------------------")
